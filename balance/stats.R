@@ -18,17 +18,19 @@ get_stats <- function(raw_data,
                                        type_labels = raw_data$treated,
                                        type_constraints = c("T" = 1, "C" = 1)))
 
+  treated <- (raw_data$treated == "T")
+
   # Calculate matching weights
   tmp_matches <- matches
   tmp_matches[is.na(tmp_matches)] <- max(tmp_matches, na.rm = TRUE) + 1L
   num_same_treatment_in_group <- ave(tmp_matches,
-                                     treatments,
+                                     raw_data$treated,
                                      tmp_matches,
                                      FUN = length)
-  num_treated_in_group <- ave(treatments == "T",
+  num_treated_in_group <- ave(treated,
                               tmp_matches,
                               FUN = sum)
-  num_treated_in_total <- sum(treatments == "T")
+  num_treated_in_total <- sum(treated)
   weights <- num_treated_in_group / (num_treated_in_total * num_same_treatment_in_group)
   weights[is.na(matches)] <- 0.0
 
@@ -45,8 +47,6 @@ get_stats <- function(raw_data,
                                            num_treated = sum(in_df$treated == "T"),
                                            group_te = mean(in_df$y[in_df$treated == "T"]) - mean(in_df$y[in_df$treated == "C"]))
                               }))
-
-  treated <- (raw_data$treated == "T")
 
   te_estimate1 <- estimator(raw_data$y, treated, weights)
   te_estimate2 <- sum(gi$num_treated * gi$group_te) / sum(gi$num_treated)
@@ -69,7 +69,8 @@ get_stats <- function(raw_data,
     ave_group_size = mean(gi$group_size),
     var_group_size = real_var(gi$group_size),
     share_discarded = mean(is.na(matches)),
-    var_weights = real_var(weights),
+    var_weights_treat = real_var(weights[treated]),
+    var_weights_control = real_var(weights[!treated]),
     te_est = te_estimate1,
     bal_x1 = estimator(raw_data$x1, treated, weights),
     bal_x2 = estimator(raw_data$x2, treated, weights),

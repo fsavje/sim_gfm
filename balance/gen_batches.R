@@ -24,6 +24,5 @@ write_batches <- function(sample_size, to_run, folder) {
 
 set.seed(06041986)
 
-sample_sizes <- c("1e2", "1e3", "1e4")
-
-invisible(lapply(sample_sizes, write_batches, "all", to_run_dir))
+invisible(lapply(c("1e2", "1e3"), write_batches, "all", to_run_dir))
+invisible(lapply(c("1e4"), write_batches, "high", to_run_dir))
