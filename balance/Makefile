@@ -4,7 +4,7 @@ include env.sh
 TIMESTAMP=$(shell date +%s)
 SCRATCH_DIR=$(GL_SCRATCH_DIR)$(SCRATCH_SUBDIR)
 
-.PHONY: clean delete folders generate queue run-in-shell collect
+.PHONY: clean delete generate queue run-in-shell collect
 
 clean:
 	if [ -d "./cluster" ]; then mv ./cluster ./cluster$(TIMESTAMP); fi
@@ -14,19 +14,16 @@ clean:
 delete:
 	$(RM) -R ./cluster* ./results* $(SCRATCH_DIR)
 
-folders: ./cluster ./results $(SCRATCH_DIR)
-
-generate: folders
+generate: $(SCRATCH_DIR)
 	$(RSCRIPT) gen_batches.R
-	touch $(SCRATCH_DIR)bg
 
-queue: folders $(SCRATCH_DIR)bg
+queue: ./cluster ./results $(SCRATCH_DIR)
 	sbatch add_to_cluster.sh
 
-run-in-shell: folders $(SCRATCH_DIR)bg
+run-in-shell: ./results $(SCRATCH_DIR)
 	./runbatches.sh 12345 2 to_run ./batch.sh
 
-collect: ../collected
+collect: ./results ../collected
 	$(RM) -R $(SCRATCH_DIR)tmp_results
 	for file in `ls ./results/`; do cat ./results/$$file >> $(SCRATCH_DIR)tmp_results ; done
 	if [ -f "../collected/balance.Rdata" ]; then mv ../collected/balance.Rdata ../collected/balance$(TIMESTAMP).Rdata; fi

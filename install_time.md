@@ -17,4 +17,4 @@ rm -r time-1.7 time-1.7.tar.gz
 
 ## References
 
-https://groups.google.com/forum/#!topic/gnu.utils.help/u1MOsHL4bhg
+* https://groups.google.com/forum/#!topic/gnu.utils.help/u1MOsHL4bhg

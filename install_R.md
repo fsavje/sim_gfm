@@ -80,5 +80,5 @@ rm -r tmp_src
 
 ## References
 
-http://stackoverflow.com/a/41362423
-http://pj.freefaculty.org/blog/?p=315
+* http://stackoverflow.com/a/41362423
+* http://pj.freefaculty.org/blog/?p=315
