@@ -14,4 +14,4 @@
 ## Run command
 
 module load r/3.3.2
-./runbatches.sh $SLURM_JOB_ID 15 to_run ./batch.sh
+./worker.sh $SLURM_JOB_ID 15 normal_node ./batch.sh

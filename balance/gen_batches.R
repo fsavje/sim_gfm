@@ -1,14 +1,14 @@
 source("../misc.R")
 
-to_run_dir <- paste0(get_scratch_dir(), "to_run")
-n_rounds <- as.integer(get_config("NROUNDS", "env.sh"))
+normal_node_dir <- paste0(get_scratch_dir(), "normal_node")
 
-if (!file.exists(to_run_dir)) {
+if (!file.exists(normal_node_dir)) {
   warning("Invalid to_run dir.")
   quit("no", 1)
 }
 
+n_rounds <- as.integer(get_config("NROUNDS", "env.sh"))
+
 set.seed(06041986)
 
-invisible(lapply(c("1e2", "1e3"), write_batches, "all", to_run_dir))
-invisible(lapply(c("1e4"), write_batches, "high", to_run_dir))
+invisible(lapply(c("1e2", "1e3", "1e4"), write_batches, "all", normal_node_dir))

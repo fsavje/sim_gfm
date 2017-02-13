@@ -12,19 +12,25 @@ if [ "$?" == "0" ]; then
 	# For future versions, use Rscript if possible. I.e.:
 	# `./time.sh Rscript match_funcs/scclust_EXU_CSE.R $DATAFILE >> $OUTFILE`
 
-	if [ "$TORUN" == "small" ]; then
+	if [ "$TORUN" == "level1" ]; then
 		./time.sh R --vanilla --slave "--args $DATAFILE" < match_funcs/opt_kmatch.R >> $OUTFILE
+	fi
+
+	if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ]; then
 		./time.sh R --vanilla --slave "--args $DATAFILE" < match_funcs/opt_pairmatch.R >> $OUTFILE
 	fi
 
-	if [ "$TORUN" == "small" ] || [ "$TORUN" == "med" ]; then
+	if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ] || [ "$TORUN" == "level3" ]; then
+		./time.sh R --vanilla --slave "--args $DATAFILE" < match_funcs/opt_fullmatch.R >> $OUTFILE
+	fi
+
+	if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ] || [ "$TORUN" == "level3" ] || [ "$TORUN" == "level4" ]; then
 		./time.sh R --vanilla --slave "--args $DATAFILE" < match_funcs/gre_kmatch.R >> $OUTFILE
 		./time.sh R --vanilla --slave "--args $DATAFILE" < match_funcs/gre_pairmatch.R >> $OUTFILE
-		./time.sh R --vanilla --slave "--args $DATAFILE" < match_funcs/opt_fullmatch.R >> $OUTFILE
 		./time.sh R --vanilla --slave "--args $DATAFILE" < match_funcs/rep_pairmatch.R >> $OUTFILE
 	fi
 
-	if [ "$TORUN" == "small" ] || [ "$TORUN" == "med" ] || [ "$TORUN" == "big" ]; then
+	if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ] || [ "$TORUN" == "level3" ] || [ "$TORUN" == "level4" ] || [ "$TORUN" == "level5" ]; then
 		./time.sh R --vanilla --slave "--args $DATAFILE" < match_funcs/scclust_EXU_CSE.R >> $OUTFILE
 		./time.sh R --vanilla --slave "--args $DATAFILE" < match_funcs/scclust_LEX_ANY.R >> $OUTFILE
 	fi

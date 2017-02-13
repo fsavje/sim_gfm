@@ -18,10 +18,11 @@ generate: $(SCRATCH_DIR)
 	Rscript gen_batches.R
 
 queue: ./cluster ./results $(SCRATCH_DIR)
-	sbatch add_to_cluster.sh
+	sbatch run_bigmem_node.sh
+	sbatch run_normal_node.sh
 
 run-in-shell: ./results $(SCRATCH_DIR)
-	./runbatches.sh 12345 2 to_run ./batch.sh
+	./worker.sh 12345 2 normal_node ./batch.sh
 
 collect: ./results ../collected
 	$(RM) -R $(SCRATCH_DIR)tmp_results
@@ -40,6 +41,7 @@ collect: ./results ../collected
 
 $(SCRATCH_DIR):
 	mkdir -p $(SCRATCH_DIR)
-	mkdir -p $(SCRATCH_DIR)to_run
+	mkdir -p $(SCRATCH_DIR)normal_node
+	mkdir -p $(SCRATCH_DIR)bigmem_node
 	mkdir -p $(SCRATCH_DIR)tmpdata
 	mkdir -p $(SCRATCH_DIR)running

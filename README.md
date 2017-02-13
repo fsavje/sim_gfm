@@ -35,15 +35,16 @@ Generate environment variables (change `global_env.sh`, `balance/env.sh` and `co
 
 ## Run simulations for balance
 
-In the `balance` folder run:
-
 ```bash
+# Change folder to the balance simulations
+cd balance
 # Load the R module
 module load r/3.3.2
 # Generate batches
 make generate
-# Add one or more workers to SLURM queue (or run simulations in current shell with: `make run-in-shell`)
-make queue
+# Run simulations on node. Several nodes can run simultaneously.
+# (for SLURM cluster, see the `make queue` target in the `Makefile`)
+./run_node.sh
 # Wait until simulations are completely done...
 # Then collect results in `collected/balance.Rdata`
 make collect
@@ -51,9 +52,18 @@ make collect
 
 ## Run simulations for complexity
 
-`module load time/1.7 r/3.3.2`
-
 ```bash
+# Change folder to the balance simulations
+cd complexity
 # Load the R module
 module load r/3.3.2
+# Generate batches
+make generate
+# Run simulations on node. Several nodes can run simultaneously.
+# (for SLURM cluster, see the `make queue` target in the `Makefile`)
+./run_normal_node.sh
+./run_bigmem_node.sh
+# Wait until simulations are completely done...
+# Then collect results in `collected/complexity.Rdata`
+make collect
 ```
