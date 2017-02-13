@@ -13,5 +13,5 @@
 #
 ## Run command
 
-module load gcc/4.8.5 java
+module load r/3.3.2
 ./runbatches.sh $SLURM_JOB_ID 15 to_run ./batch.sh

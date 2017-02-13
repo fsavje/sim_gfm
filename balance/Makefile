@@ -15,7 +15,7 @@ delete:
 	$(RM) -R ./cluster* ./results* $(SCRATCH_DIR)
 
 generate: $(SCRATCH_DIR)
-	$(RSCRIPT) gen_batches.R
+	Rscript gen_batches.R
 
 queue: ./cluster ./results $(SCRATCH_DIR)
 	sbatch add_to_cluster.sh
@@ -27,7 +27,7 @@ collect: ./results ../collected
 	$(RM) -R $(SCRATCH_DIR)tmp_results
 	for file in `ls ./results/`; do cat ./results/$$file >> $(SCRATCH_DIR)tmp_results ; done
 	if [ -f "../collected/balance.Rdata" ]; then mv ../collected/balance.Rdata ../collected/balance$(TIMESTAMP).Rdata; fi
-	$(RSCRIPT) collect.R $(SCRATCH_DIR)tmp_results
+	Rscript collect.R $(SCRATCH_DIR)tmp_results
 
 ../collected:
 	mkdir -p ../collected
