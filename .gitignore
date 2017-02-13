@@ -41,3 +41,6 @@ vignettes/*.pdf
 /balance/results/
 /balance/env.sh
 
+/complexity/cluster/
+/complexity/results/
+/complexity/env.sh

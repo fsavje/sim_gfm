@@ -8,7 +8,7 @@ We ran everything on the SAVIO cluster at UC Berkeley. A mix of low and high mem
 
 ## Set up
 
-We used a fresh installation of R 3.3.2 (see [this gist](https://gist.github.com/fsavje/d7e0bfb097b59ae6b9db6145895e62a7/332e81503517cd5842a405bfc4b543b6364d1b6b) for details). We installed the packages used in the simulations with:
+We used a fresh installation of R 3.3.2 (see [this note](install_modules.md) for details). We installed the packages used in the simulations with:
 
 ```R
 install.packages(c("devtools"), repos = "http://cloud.r-project.org")
@@ -17,7 +17,7 @@ devtools::install_version("optmatch", version = "0.9-7", repos = "http://cloud.r
 devtools::install_github("fsavje/Rscclust", ref = "7a275a23b7d4e5242ffdd6f68a21de4b4ba8d08d")
 ```
 
-We used [GNU `time`](https://www.gnu.org/software/time/) to measure time and memory use. However, many distributions include GNU time 1.7 which reports incorrect memory use. Therefore, we used a patched version of 1.7 corrects this bug. See [this gist](https://gist.github.com/fsavje/d7e0bfb097b59ae6b9db6145895e62a7/332e81503517cd5842a405bfc4b543b6364d1b6b) for details.
+We used [GNU `time`](https://www.gnu.org/software/time/) to measure time and memory use. However, many distributions include GNU time 1.7 which reports incorrect memory use. Therefore, we used a patched version of 1.7 that corrects this bug. See [this note](install_modules.md) for details.
 
 Clone this repo:
 
@@ -37,7 +37,7 @@ Generate environment variables (change `global_env.sh`, `balance/env.sh` and `co
 
 In the `balance` folder run:
 
-```
+```bash
 # Load the R module
 module load r/3.3.2
 # Generate batches
@@ -53,7 +53,7 @@ make collect
 
 `module load time/1.7 r/3.3.2`
 
-```
+```bash
 # Load the R module
 module load r/3.3.2
 ```

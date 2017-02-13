@@ -9,7 +9,7 @@ DATAFILE="$(Rscript gen_data.R $BATCHSET)"
 if [ "$?" == "0" ]; then
 
 	# Current version of optmatch doesn't work with Rscript.
-	# For future version, use Rscript if possible. I.e.:
+	# For future versions, use Rscript if possible. I.e.:
 	# `Rscript run_match.R scclust_EXO_ANY $DATAFILE >> $OUTFILE`
 
 	if [ "$TORUN" == "all" ]; then
