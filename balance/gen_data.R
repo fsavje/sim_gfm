@@ -32,7 +32,10 @@ raw_data$y <- (raw_data$x1 - 1)^2 + (raw_data$x2 - 1)^2 + rnorm(sample_size_int)
 treat_prop <- 1 / (1 + exp(2.5 - 0.5 * (raw_data$x1 + 1)^2 - 0.5 *(raw_data$x2 + 1)^2))
 while (TRUE) {
   raw_data$treated <- factor(rbinom(sample_size_int, 1, treat_prop), labels = c("C", "T"))
-  if (length(levels(raw_data$treated)) == 2) break
+  if ((length(levels(raw_data$treated)) == 2) &&
+      (2L * sum(raw_data$treated == "C") > sample_size_int)) {
+    break
+  }
 }
 
 save(sim_run, sample_size, sample_size_int, raw_data, file = outfile, compress = FALSE)

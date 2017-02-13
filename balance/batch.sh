@@ -8,6 +8,10 @@ DATAFILE="$(Rscript gen_data.R $BATCHSET)"
 
 if [ "$?" == "0" ]; then
 
+	# Current version of optmatch doesn't work with Rscript.
+	# For future version, use Rscript if possible. I.e.:
+	# `Rscript run_match.R scclust_EXO_ANY $DATAFILE >> $OUTFILE`
+
 	if [ "$TORUN" == "all" ]; then
 		R --vanilla --slave "--args opt_kmatch $DATAFILE" < run_match.R >> $OUTFILE
 		R --vanilla --slave "--args opt_pairmatch $DATAFILE" < run_match.R >> $OUTFILE
