@@ -33,7 +33,7 @@ treat_prop <- 1 / (1 + exp(2.5 - 0.5 * (raw_data$x1 + 1)^2 - 0.5 *(raw_data$x2 +
 while (TRUE) {
   raw_data$treated <- factor(rbinom(sample_size_int, 1, treat_prop), labels = c("C", "T"))
   if ((length(levels(raw_data$treated)) == 2) &&
-      (2L * sum(raw_data$treated == "C") > sample_size_int)) {
+      (3L * sum(raw_data$treated == "C") > 2L * sample_size_int)) {
     break
   }
 }
