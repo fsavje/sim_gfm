@@ -1,4 +1,4 @@
-source("misc.R")
+source("../misc.R")
 
 args <- commandArgs(trailingOnly = TRUE)
 

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source ../global_env.sh
-
 BATCHFILE="$1"
 source $BATCHFILE
 OUTFILE="./results/$2"
