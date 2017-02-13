@@ -2,8 +2,8 @@
 #
 #SBATCH --job-name=balance
 #SBATCH --partition=savio
-#SBATCH --qos=praxis_normal
 #SBATCH --account=co_praxis
+#SBATCH --qos=praxis_savio_normal
 #SBATCH --ntasks=15
 #SBATCH --mem-per-cpu=4G
 #SBATCH --workdir=/global/home/users/fsavje/sim_gfm/balance/

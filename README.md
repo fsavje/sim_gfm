@@ -17,12 +17,37 @@ devtools::install_version("optmatch", version = "0.9-7", repos = "http://cloud.r
 devtools::install_github("fsavje/Rscclust", ref = "7a275a23b7d4e5242ffdd6f68a21de4b4ba8d08d")
 ```
 
+Clone this repo:
+
+```bash
+git clone https://github.com/fsavje/sim_gfm.git
+cd sim_gfm
+```
+
+
+Some environment variables need to be made. Run:
+
+```bash
+./make_envs.sh
+```
+
+This makes standard versions of `global_env.sh`, `balance/env.sh` and `complexity/env.sh`. Change them as needed. 
+
+
 ## Run simulations for balance
 
+In the `balance` folder run:
+
 ```
-cd balance
+# Load the R module
+module load r/3.3.2
+# Generate batches
 make generate
-make run-in-shell
+# Add worker to SLURM queue
+# Or, run simulations in current shell with: `make run-in-shell`
+make queue
+# Wait until simulations are completely done...
+# Then collect simulation results to `collected/balance.Rdata`
 make collect
 ```
 
