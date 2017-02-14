@@ -4,4 +4,4 @@
 SCRATCH_SUBDIR=balance/
 
 ### Number of simulation rounds
-NROUNDS=10000
+NROUNDS=5000
