@@ -12,14 +12,14 @@ generate: $(SCRATCH_DIR)
 	Rscript gen_batches.R
 
 queue: ./cluster $(SCRATCH_DIR)
-	sbatch run_node.sh
+	for n in {1..4}; do sbatch run_node.sh; sleep 1; done
 
 run-in-shell: $(SCRATCH_DIR)
 	./worker.sh 12345 2 normal_node ./batch.sh
 
 collect: ../collected
 	$(RM) -R $(SCRATCH_DIR)tmp_results
-	for file in `ls $(SCRATCH_DIR)results`; do cat $(SCRATCH_DIR)results/$$file >> $(SCRATCH_DIR)tmp_results ; done
+	for file in `ls $(SCRATCH_DIR)results`; do cat $(SCRATCH_DIR)results/$$file >> $(SCRATCH_DIR)tmp_results; done
 	if [ -f "../collected/balance.Rdata" ]; then mv ../collected/balance.Rdata ../collected/balance$(shell date +%s).Rdata; fi
 	Rscript collect.R $(SCRATCH_DIR)tmp_results
 

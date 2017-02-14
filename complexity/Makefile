@@ -12,8 +12,8 @@ generate: $(SCRATCH_DIR)
 	Rscript gen_batches.R
 
 queue: ./cluster $(SCRATCH_DIR)
-	sbatch run_bigmem_node.sh
-	sbatch run_normal_node.sh
+	for n in {1..4}; do sbatch run_bigmem_node.sh; sleep 1; done
+	for n in {1..4}; do sbatch run_normal_node.sh; sleep 1; done
 
 run-in-shell: $(SCRATCH_DIR)
 	./worker.sh 12345 2 normal_node ./batch.sh

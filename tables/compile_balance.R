@@ -1,5 +1,3 @@
-source("../misc.R")
-
 outfile <- "./compiled/balance.Rdata"
 
 if (file.exists(outfile)) {
@@ -9,14 +7,20 @@ if (file.exists(outfile)) {
 
 load("../collected/balance.Rdata")
 
-expected_n_rounds <- as.integer(get_config("NROUNDS", "../balance/env.sh"))
+round_list <- lapply(split(collected_results$sim_run, list(method = collected_results$method,
+                                                           sample_size = collected_results$sample_size)),
+                     sort)
 
-round_count <- aggregate(list(count = collected_results$avg_mean_dist),
-                         list(method = collected_results$method,
-                              sample_size = collected_results$sample_size),
-                         length)
+round_check <- sapply(round_list,
+                      function(x) {
+                        length(x) == length(round_list[[1]]) &&
+                          all(x == round_list[[1]])
+                      })
 
-stopifnot(all(round_count$count == expected_n_rounds))
+if (!all(round_check)) {
+  warning("Some simulation rounds are missing.")
+  quit("no", 1)
+}
 
 collected_results$abs_bal_x1 <- abs(collected_results$bal_x1)
 collected_results$abs_bal_x2 <- abs(collected_results$bal_x2)
@@ -27,14 +31,11 @@ collected_results$abs_bal_x1x2 <- abs(collected_results$bal_x1x2)
 collected_results$bias <- collected_results$te_est
 collected_results$rmse <- collected_results$te_est^2
 
-aggregate_means <- aggregate(collected_results[, c("avg_mean_dist",
-                                                   "avg_mean_tc_dist",
-                                                   "trw_mean_dist",
-                                                   "trw_mean_tc_dist",
-                                                   "gsw_mean_dist",
-                                                   "gsw_mean_tc_dist",
+aggregate_means <- aggregate(collected_results[, c("mean_dist",
+                                                   "mean_tc_dist",
                                                    "max_dist",
                                                    "max_tc_dist",
+                                                   "sum_dist",
                                                    "ave_group_size",
                                                    "var_group_size",
                                                    "share_discarded",

@@ -1,5 +1,3 @@
-source("../misc.R")
-
 outfile <- "./compiled/complexity.Rdata"
 
 if (file.exists(outfile)) {
@@ -9,14 +7,20 @@ if (file.exists(outfile)) {
 
 load("../collected/complexity.Rdata")
 
-expected_n_rounds <- as.integer(get_config("NROUNDS", "../complexity/env.sh"))
+round_list <- lapply(split(collected_results$sim_run, list(method = collected_results$method,
+                                                           sample_size = collected_results$sample_size)),
+                     sort)
 
-round_count <- aggregate(list(count = collected_results$sim_run),
-                         list(method = collected_results$method,
-                              sample_size = collected_results$sample_size),
-                         length)
+round_check <- sapply(round_list,
+                      function(x) {
+                        length(x) == length(round_list[[1]]) &&
+                          all(x == round_list[[1]])
+                      })
 
-stopifnot(all(round_count$count == expected_n_rounds))
+if (!all(round_check)) {
+  warning("Some simulation rounds are missing.")
+  quit("no", 1)
+}
 
 collected_results$tot_time <- collected_results$sys_time + collected_results$app_time
 
