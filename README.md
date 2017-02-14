@@ -23,12 +23,12 @@ Clone this repo:
 
 ```bash
 git clone https://github.com/fsavje/sim_gfm.git
-cd sim_gfm
 ```
 
 Generate environment variables (change `global_env.sh`, `balance/env.sh` and `complexity/env.sh` as needed):
 
 ```bash
+cd sim_gfm
 ./make_envs.sh
 ```
 
