@@ -9,7 +9,8 @@ balance: ./output ./compiled/balance.Rdata
 	Rscript tables_balance.R
 
 complexity: ./output ./compiled/complexity.Rdata
-	echo "none"
+	Rscript figure_complexity.R
+	Rscript tables_complexity.R
 
 ./compiled/balance.Rdata: ./compiled ../collected/balance.Rdata
 	Rscript compile_balance.R

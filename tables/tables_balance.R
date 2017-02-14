@@ -2,22 +2,6 @@ source("funcs.R")
 
 load("./compiled/balance.Rdata")
 
-# tmp
-compiled_results <- rbind(compiled_results,
-                          compiled_results[1, ],
-                          compiled_results[1, ],
-                          compiled_results[24, ],
-                          compiled_results[24, ],
-                          compiled_results[47, ],
-                          compiled_results[47, ])
-compiled_results$method[70] <- "opt_pairmatch"
-compiled_results$method[71] <- "opt_kmatch"
-compiled_results$method[72] <- "opt_pairmatch"
-compiled_results$method[73] <- "opt_kmatch"
-compiled_results$method[74] <- "opt_pairmatch"
-compiled_results$method[75] <- "opt_kmatch"
-
-
 # Make additional statistics
 
 compiled_results$bias_se_ratio <- compiled_results$bias / compiled_results$std_err

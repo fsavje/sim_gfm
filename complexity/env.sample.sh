@@ -4,4 +4,4 @@
 SCRATCH_SUBDIR=complexity/
 
 ### Number of simulation rounds
-NROUNDS=500
+NROUNDS=1000
