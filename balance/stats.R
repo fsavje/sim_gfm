@@ -40,9 +40,10 @@ get_stats <- function(raw_data,
                                 g_dist <- dist(as.matrix(in_df[, c("x1", "x2")]))
                                 tc_dist <- as.matrix(g_dist)[in_df$treated == "T", in_df$treated == "C", drop = FALSE]
                                 data.frame(mean_dist = mean(g_dist),
-                                           max_dist = max(g_dist),
                                            mean_tc_dist = mean(tc_dist),
+                                           max_dist = max(g_dist),
                                            max_tc_dist = max(tc_dist),
+                                           sum_tc_dist = sum(tc_dist),
                                            group_size = nrow(in_df),
                                            num_treated = sum(in_df$treated == "T"),
                                            group_te = mean(in_df$y[in_df$treated == "T"]) - mean(in_df$y[in_df$treated == "C"]))
@@ -54,14 +55,11 @@ get_stats <- function(raw_data,
   # Sanity check
   stopifnot(all.equal(te_estimate1, te_estimate2))
 
-  c(avg_mean_dist = mean(gi$mean_dist),
-    avg_mean_tc_dist = mean(gi$mean_tc_dist),
-    trw_mean_dist = sum(gi$num_treated * gi$mean_dist) / sum(gi$num_treated),
-    trw_mean_tc_dist = sum(gi$num_treated * gi$mean_tc_dist) / sum(gi$num_treated),
-    gsw_mean_dist = sum(gi$group_size * gi$mean_dist) / sum(gi$group_size),
-    gsw_mean_tc_dist = sum(gi$group_size * gi$mean_tc_dist) / sum(gi$group_size),
+  c(mean_dist = sum(gi$num_treated * gi$mean_dist) / sum(gi$num_treated),
+    mean_tc_dist = sum(gi$num_treated * gi$mean_tc_dist) / sum(gi$num_treated),
     max_dist = max(gi$max_dist),
     max_tc_dist = max(gi$max_tc_dist),
+    sum_dist = sum(gi$sum_tc_dist),
     ave_group_size = mean(gi$group_size),
     var_group_size = real_var(gi$group_size),
     share_discarded = mean(is.na(matches)),
