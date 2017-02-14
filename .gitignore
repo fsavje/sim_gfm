@@ -44,3 +44,6 @@ vignettes/*.pdf
 /complexity/cluster/
 /complexity/results/
 /complexity/env.sh
+
+/tables/compiled/
+/tables/output/
