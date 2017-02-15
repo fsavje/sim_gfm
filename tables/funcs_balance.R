@@ -21,7 +21,7 @@ make_table <- function(file,
   if (!is.null(cols_to_normalize)) {
     split(tmp_results[, cols_to_normalize], tmp_results$sample_size) <- lapply(split(tmp_results[, cols_to_normalize, drop = FALSE], tmp_results$sample_size),
                                                                                function (x) {
-                                                                                 t(t(as.matrix(x)) / as.numeric(x[methods_include == normalize_with, , drop = FALSE]))
+                                                                                 t(t(as.matrix(x)) / as.numeric(normalize_with[, cols_to_normalize, drop = FALSE]))
                                                                                })
   }
 
@@ -36,10 +36,10 @@ make_table <- function(file,
             format(col, justify = "right", digits = digits, nsmall = nsmall, scientific = FALSE)
           }
         )
-        tmp_mat <- rbind(col_labels, tmp_mat)
+        tmp_mat <- format(rbind(col_labels, tmp_mat), justify = "right")
         tmp_mat <- apply(tmp_mat, 1, paste, collapse = " & ")
         tmp_mat <- cbind(tmp_mat)
-        tmp_mat <- c(paste0("\\multicolumn{", length(stats_cols), "}{c}{", df_ss$sample_size[1], "}"), tmp_mat)
+        tmp_mat <- format(c(paste0("\\multicolumn{", length(stats_cols), "}{c}{", df_ss$sample_size[1], "}"), tmp_mat), justify = "centre")
         tmp_mat <- paste("& &", tmp_mat)
       }
     )

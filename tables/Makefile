@@ -3,7 +3,7 @@
 all: balance complexity
 
 clean:
-	$(RM) -fR ./compiled ./output
+	$(RM) -R ./compiled ./output
 
 balance: ./output ./compiled/balance.Rdata
 	Rscript tables_balance.R

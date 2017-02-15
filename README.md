@@ -2,9 +2,11 @@
 
 Code to run the simulations presented in the generalized full matching paper.
 
+
 ## Environment
 
 We ran everything on the SAVIO cluster at UC Berkeley. A mix of low and high memory nodes were used depending on sample size. 
+
 
 ## Set up
 
@@ -36,9 +38,7 @@ cd sim_gfm
 ## Run simulations for balance
 
 ```bash
-# Change folder to the balance simulations
 cd balance
-# Load the R module
 module load r/3.3.2
 # Generate batches
 make generate
@@ -50,12 +50,11 @@ make generate
 make collect
 ```
 
+
 ## Run simulations for complexity
 
 ```bash
-# Change folder to the balance simulations
 cd complexity
-# Load the R module
 module load r/3.3.2
 # Generate batches
 make generate
@@ -66,4 +65,16 @@ make generate
 # Wait until simulations are completely done...
 # Then collect results in `collected/complexity.Rdata`
 make collect
+```
+
+
+## Make tables and figures
+
+This step is quick and there's no need to run it on a cluster. It does, however, require that `collected/balance.Rdata` and `collected/complexity.Rdata` have been generated and are accessible locally.
+
+```bash
+cd tables
+module load r/3.3.2
+# Generate tables and figures (see the `output` folder for results)
+make all
 ```
