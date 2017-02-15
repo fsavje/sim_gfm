@@ -46,4 +46,3 @@ done
 #done
 
 rm $DATAFILE
-rm $BATCHFILE
