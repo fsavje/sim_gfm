@@ -20,8 +20,8 @@ run-in-shell: $(SCRATCH_DIR)
 
 collect: ../collected
 	$(RM) -R $(SCRATCH_DIR)tmp_results
-	for file in `ls $(SCRATCH_DIR)results`; do cat $(SCRATCH_DIR)results/$$file >> $(SCRATCH_DIR)tmp_results ; done
 	if [ -f "../collected/complexity.Rdata" ]; then mv ../collected/complexity.Rdata ../collected/complexity$(shell date +%s).Rdata; fi
+	for file in `ls $(SCRATCH_DIR)results`; do cat $(SCRATCH_DIR)results/$$file >> $(SCRATCH_DIR)tmp_results; done
 	Rscript collect.R $(SCRATCH_DIR)tmp_results
 
 ../collected:
@@ -34,7 +34,6 @@ $(SCRATCH_DIR):
 	mkdir -p $(SCRATCH_DIR)
 	mkdir -p $(SCRATCH_DIR)normal_node
 	mkdir -p $(SCRATCH_DIR)bigmem_node
-	mkdir -p $(SCRATCH_DIR)tmp
 	mkdir -p $(SCRATCH_DIR)tmpdata
 	mkdir -p $(SCRATCH_DIR)results
 	mkdir -p $(SCRATCH_DIR)running

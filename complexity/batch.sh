@@ -1,50 +1,58 @@
 #!/bin/bash
 
-source ../global_env.sh
-source env.sh
-
 BATCHFILE="$1"
+OUTFILE="$2"
+
+if [ ! -f "$BATCHFILE" ]; then
+	echo "Cannot find batch file (batch: $BATCHFILE)" >&2
+	exit 1
+fi
+
+if [ -e "$OUTFILE" ]; then
+	echo "Outfile already exists (batch: $BATCHFILE)" >&2
+	exit 1
+fi
+
 source $BATCHFILE
-SCRATCHDIR="${GL_SCRATCH_DIR}${SCRATCH_SUBDIR}"
-OUTFILE="${SCRATCHDIR}/results/$2"
-TMPFILE="${SCRATCHDIR}/tmp/tmp-$2"
 
 DATAFILE="$(Rscript gen_data.R $BATCHSET)"
 
-if [ "$?" == "0" ] && [ -f "$DATAFILE" ]; then
-
-	rm -f $TMPFILE
-
-	# Current version of optmatch doesn't work with Rscript.
-	# For future versions, use Rscript if possible. I.e.:
-	# `./time.sh Rscript do_matching.R scclust_EXU_CSE $DATAFILE >> $TMPFILE`
-
-	if [ "$TORUN" == "level1" ]; then
-		./time.sh R --vanilla --slave "--args opt_kmatch $DATAFILE" < do_matching.R >> $TMPFILE
-	fi
-
-	if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ]; then
-		./time.sh R --vanilla --slave "--args opt_pairmatch $DATAFILE" < do_matching.R >> $TMPFILE
-	fi
-
-	if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ] || [ "$TORUN" == "level3" ]; then
-		./time.sh R --vanilla --slave "--args opt_fullmatch $DATAFILE" < do_matching.R >> $TMPFILE
-	fi
-
-	if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ] || [ "$TORUN" == "level3" ] || [ "$TORUN" == "level4" ]; then
-		./time.sh R --vanilla --slave "--args gre_kmatch $DATAFILE" < do_matching.R >> $TMPFILE
-		./time.sh R --vanilla --slave "--args gre_pairmatch $DATAFILE" < do_matching.R >> $TMPFILE
-		./time.sh R --vanilla --slave "--args rep_pairmatch $DATAFILE" < do_matching.R >> $TMPFILE
-	fi
-
-	if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ] || [ "$TORUN" == "level3" ] || [ "$TORUN" == "level4" ] || [ "$TORUN" == "level5" ]; then
-		./time.sh R --vanilla --slave "--args scclust_EXU_CSE $DATAFILE" < do_matching.R >> $TMPFILE
-		./time.sh R --vanilla --slave "--args scclust_LEX_ANY $DATAFILE" < do_matching.R >> $TMPFILE
-	fi
-
-	cat $TMPFILE >> $OUTFILE
-
-	rm $TMPFILE
-	rm $DATAFILE
-	rm $BATCHFILE
+if [ $? -ne 0 ] || [ ! -f "$DATAFILE" ]; then
+	echo "Cannot generate data file (batch: $BATCHFILE)" >&2
+	exit 1
 fi
+
+METHODS_TORUN="scclust_EXU_CSE scclust_LEX_ANY"
+if [ "$TORUN" == "level1" ]; then
+	METHODS_TORUN="$METHODS_TORUN opt_kmatch"
+fi
+if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ]; then
+	METHODS_TORUN="$METHODS_TORUN opt_pairmatch"
+fi
+if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ] || [ "$TORUN" == "level3" ]; then
+	METHODS_TORUN="$METHODS_TORUN opt_fullmatch"
+fi
+if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ] || [ "$TORUN" == "level3" ] || [ "$TORUN" == "level4" ]; then
+	METHODS_TORUN="$METHODS_TORUN gre_kmatch gre_pairmatch rep_pairmatch"
+fi
+
+for match_method in $METHODS_TORUN; do
+	./time.sh R --vanilla --slave "--args $match_method $DATAFILE" < do_matching.R >> $OUTFILE
+	if [ $? -ne 0 ]; then
+		echo "Error when running batch (batch: $BATCHFILE, method: $match_method)" >&2
+		exit 1
+	fi
+done
+
+## Current version of optmatch doesn't work with Rscript.
+## For future versions, use Rscript if possible.
+#for match_method in $METHODS_TORUN; do
+#	./time.sh Rscript do_matching.R $match_method $DATAFILE >> $OUTFILE
+#	if [ $? -ne 0 ]; then
+#		echo "Error when running batch (batch: $BATCHFILE, method: $match_method)" >&2
+#		exit 1
+#	fi
+#done
+
+rm $DATAFILE
+rm $BATCHFILE
