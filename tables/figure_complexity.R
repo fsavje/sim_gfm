@@ -2,6 +2,8 @@ library("ggplot2")
 
 source("funcs_complexity.R")
 
+pdf(NULL)
+
 load("./compiled/complexity.Rdata")
 
 # Time in minutes
