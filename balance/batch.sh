@@ -11,7 +11,7 @@ TMPFILE="${SCRATCHDIR}/tmp/tmp-$2"
 
 DATAFILE="$(Rscript gen_data.R $BATCHSET)"
 
-if [ "$?" == "0" ]; then
+if [ "$?" == "0" ] && [ -f "$DATAFILE" ]; then
 
 	rm -f $TMPFILE
 

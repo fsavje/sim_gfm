@@ -1,11 +1,7 @@
 suppressPackageStartupMessages(library("Matching"))
 
-load(commandArgs(trailingOnly = TRUE)[1])
-
 matches <- Match(Tr = (raw_data$treated == "T"),
                  X = as.matrix(raw_data[, c("x1", "x2")]),
                  M = 2,
                  replace = FALSE,
                  ties = FALSE)
-
-cat("gre_kmatch", sample_size, sim_run, " ")

@@ -22,7 +22,7 @@ for c in $(seq 1 $CORES); do
 			fi
 			echo "Running $BATCHFILE."
 			mv $BATCHDIR/$BATCHFILE $RUNDIR/$BATCHFILE
-			if [ "$?" == "0" ]; then
+			if [ "$?" == "0" ] && [ -f "$RUNDIR/$BATCHFILE" ]; then
 				$COMMAND $RUNDIR/$BATCHFILE "${JOBID}-${c}"
 			fi
 		done

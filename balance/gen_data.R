@@ -7,7 +7,8 @@ if (length(args) == 3) {
   sim_run <- as.integer(args[2])
   seed <- as.integer(args[3])
 } else {
-  stop("Must supply three arguments.")
+  warning("Must supply three arguments.")
+  quit("no", 1)
 }
 
 tmpdata_dir <- paste0(get_scratch_dir(), "tmpdata")

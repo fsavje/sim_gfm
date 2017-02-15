@@ -15,9 +15,7 @@ if (!file.exists(data_set)) {
 
 load(data_set)
 
-# This creates the matching and stores it in `matches`
+# Run matching
 source(paste0("match_funcs/", match_fun, ".R"))
 
-source("stats.R")
-
-cat(match_fun, sample_size, sim_run, get_stats(raw_data, matches), "\n")
+cat(match_fun, sample_size, sim_run, " ")
