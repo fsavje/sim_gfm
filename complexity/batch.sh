@@ -1,15 +1,9 @@
 #!/bin/bash
 
 BATCHFILE="$1"
-OUTFILE="$2"
 
 if [ ! -f "$BATCHFILE" ]; then
 	echo "Cannot find batch file (batch: $BATCHFILE)" >&2
-	exit 1
-fi
-
-if [ -e "$OUTFILE" ]; then
-	echo "Outfile already exists (batch: $BATCHFILE)" >&2
 	exit 1
 fi
 
@@ -37,7 +31,7 @@ if [ "$TORUN" == "level1" ] || [ "$TORUN" == "level2" ] || [ "$TORUN" == "level3
 fi
 
 for match_method in $METHODS_TORUN; do
-	./time.sh R --vanilla --slave "--args $match_method $DATAFILE" < do_matching.R >> $OUTFILE
+	./time.sh R --vanilla --slave "--args $match_method $DATAFILE" < do_matching.R
 	if [ $? -ne 0 ]; then
 		echo "Error when running batch (batch: $BATCHFILE, method: $match_method)" >&2
 		exit 1
@@ -47,7 +41,7 @@ done
 ## Current version of optmatch doesn't work with Rscript.
 ## For future versions, use Rscript if possible.
 #for match_method in $METHODS_TORUN; do
-#	./time.sh Rscript do_matching.R $match_method $DATAFILE >> $OUTFILE
+#	./time.sh Rscript do_matching.R $match_method $DATAFILE
 #	if [ $? -ne 0 ]; then
 #		echo "Error when running batch (batch: $BATCHFILE, method: $match_method)" >&2
 #		exit 1

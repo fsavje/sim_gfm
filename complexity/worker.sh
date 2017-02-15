@@ -32,11 +32,7 @@ for c in $(seq 1 $CORES); do
 				continue
 			fi
 
-			if [ -e "$TMPDIR/tmp-$BATCHFILE" ]; then
-				rm $TMPDIR/tmp-$BATCHFILE
-			fi
-
-			./batch.sh $RUNDIR/$BATCHFILE $TMPDIR/tmp-$BATCHFILE
+			./batch.sh $RUNDIR/$BATCHFILE > $TMPDIR/tmp-$BATCHFILE
 
 			if [ $? -eq 0 ] && [ -f "$TMPDIR/tmp-$BATCHFILE" ]; then
 				mv $TMPDIR/tmp-$BATCHFILE $OUTDIR/res-$BATCHFILE
