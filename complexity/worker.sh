@@ -32,9 +32,14 @@ for c in $(seq 1 $CORES); do
 				continue
 			fi
 
+			if [ -e "$OUTDIR/res-$BATCHFILE" ]; then
+				echo "Result file already exists ($OUTDIR/res-$BATCHFILE)" >&2
+				continue
+			fi
+
 			./batch.sh $RUNDIR/$BATCHFILE > $TMPDIR/tmp-$BATCHFILE
 
-			if [ $? -eq 0 ] && [ -f "$TMPDIR/tmp-$BATCHFILE" ]; then
+			if [ $? -eq 0 ] && [ -f "$TMPDIR/tmp-$BATCHFILE" ] && [ ! -e "$OUTDIR/res-$BATCHFILE" ]; then
 				mv $TMPDIR/tmp-$BATCHFILE $OUTDIR/res-$BATCHFILE
 				rm $RUNDIR/$BATCHFILE
 			else
