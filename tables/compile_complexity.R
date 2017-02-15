@@ -13,8 +13,9 @@ round_list <- lapply(split(collected_results$sim_run, list(method = collected_re
 
 round_check <- sapply(round_list,
                       function(x) {
-                        length(x) == length(round_list[[1]]) &&
-                          all(x == round_list[[1]])
+                        (length(x) == 0) ||
+                          ((length(x) == length(round_list[[1]])) &&
+                             all(x == round_list[[1]]))
                       })
 
 if (!all(round_check)) {

@@ -24,8 +24,9 @@ expected_rounds <- 1L:expected_num_rounds
 check_sims <- sapply(split(collected_results, list(method = collected_results$method,
                                                    sample_size = collected_results$sample_size)),
                      function(x) {
-                       nrow(x) == expected_num_rounds &&
-                         all(sort(x$sim_run) == expected_rounds)
+                       (nrow(x) == 0) ||
+                         ((nrow(x) == expected_num_rounds) &&
+                            all(sort(x$sim_run) == expected_rounds))
                      })
 
 if (!all(check_sims)) {
