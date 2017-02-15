@@ -80,5 +80,5 @@ This step is quick and there's no need to run it on a cluster. It does, however,
 cd tables
 
 # Generate tables and figures (see the `output` folder for results)
-make all
+make
 ```

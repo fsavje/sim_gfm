@@ -31,16 +31,20 @@ collected_results$abs_bal_x1x2 <- abs(collected_results$bal_x1x2)
 collected_results$bias <- collected_results$te_est
 collected_results$rmse <- collected_results$te_est^2
 
+collected_results$sd_group_size <- collected_results$var_group_size^0.5
+collected_results$sd_weights_treat <- collected_results$var_weights_treat^0.5
+collected_results$sd_weights_control <- collected_results$var_weights_control^0.5
+
 aggregate_means <- aggregate(collected_results[, c("mean_dist",
                                                    "mean_tc_dist",
                                                    "max_dist",
                                                    "max_tc_dist",
                                                    "sum_dist",
                                                    "ave_group_size",
-                                                   "var_group_size",
+                                                   "sd_group_size",
                                                    "share_discarded",
-                                                   "var_weights_treat",
-                                                   "var_weights_control",
+                                                   "sd_weights_treat",
+                                                   "sd_weights_control",
                                                    "bias",
                                                    "rmse",
                                                    "abs_bal_x1",

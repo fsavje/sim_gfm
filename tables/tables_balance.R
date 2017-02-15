@@ -5,6 +5,7 @@ load("./compiled/balance.Rdata")
 # Make additional statistics
 
 compiled_results$bias_se_ratio <- compiled_results$bias / compiled_results$std_err
+compiled_results$sd_weights_control_norm <- compiled_results$sd_weights_control * compiled_results$sample_size
 
 # Settings common for all tables
 
@@ -47,17 +48,17 @@ make_table("./output/table_distances.tex",
 # Table 2: misc
 
 misc_cols <- c("ave_group_size",
-               "var_group_size",
+               "sd_group_size",
                "share_discarded",
-               "var_weights_control")
+               "sd_weights_control_norm")
 
 make_table("./output/table_misc.tex",
            compiled_results,
            all_methods,
            misc_cols,
            sample_sizes,
-           c("var_weights_control"),
-           normalize_with,
+           NULL,
+           NULL,
            col_labels = misc_cols)
 
 
