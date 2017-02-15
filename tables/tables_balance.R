@@ -35,7 +35,7 @@ distance_cols <- c("max_dist",
                    "mean_tc_dist",
                    "sum_dist")
 
-make_table("./output/table_distances.tex",
+make_table("output/bal_distances.tex",
            compiled_results,
            matching_methods,
            distance_cols,
@@ -52,7 +52,7 @@ misc_cols <- c("ave_group_size",
                "share_discarded",
                "sd_weights_control_norm")
 
-make_table("./output/table_misc.tex",
+make_table("output/bal_misc.tex",
            compiled_results,
            all_methods,
            misc_cols,
@@ -70,7 +70,7 @@ balance_cols <- c("abs_bal_x1",
                   "abs_bal_x2_sq",
                   "abs_bal_x1x2")
 
-make_table("./output/table_balance.tex",
+make_table("output/bal_balance.tex",
            compiled_results,
            all_methods,
            balance_cols,
@@ -91,7 +91,7 @@ rmse_normalize <- c("bias",
                     "std_err",
                     "rmse")
 
-make_table("./output/table_rmse.tex",
+make_table("output/bal_rmse.tex",
            compiled_results,
            all_methods,
            rmse_cols,

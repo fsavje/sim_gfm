@@ -68,20 +68,20 @@ plot_base <- function(plot, ss, cpumem, label, smooth_span) {
 
   if (ss == "small") {
     x_lim <- c(0, 50.5e3L)
-    x_lab_pos <- 2600
+    x_lab_pos <- 2400
     x_name <- "Data points (in thousands)"
     x_breaks <- c(0, 1e4L, 2e4L, 3e4L, 4e4L, 5e4L)
     x_labels <- c("0", "10k", "20k", "30k", "40k", "50k")
   } else if (ss == "medium") {
     x_lim <- c(0, 50.5e4L)
-    x_lab_pos <- 26000
+    x_lab_pos <- 24000
     x_name <- "Data points (in thousands)"
     x_breaks <- c(0, 1e5L, 2e5L, 3e5L, 4e5L, 5e5L)
     x_labels <- c("0", "100k", "200k", "300k", "400k", "500k")
     plot <- plot + theme(axis.title.y = element_blank())
   } else if (ss == "big") {
     x_lim <- c(0, 102e6L)
-    x_lab_pos <- 65.6e5
+    x_lab_pos <- 62.6e5
     x_name <- "Data points (in millions)"
     x_breaks <- c(0, 2e7L, 4e7L, 6e7L, 8e7L, 1e8L)
     x_labels <- c("0", "20M", "40M", "60M", "80M", "100M")
@@ -90,15 +90,17 @@ plot_base <- function(plot, ss, cpumem, label, smooth_span) {
 
   if (cpumem == "cpu") {
     y_lim <- c(-1.25, 30)
-    y_lab_pos <- 28
+    y_lab_pos <- 29
     y_name <- "Minutes"
     y_breaks <- c(0, 5, 10, 15, 20, 25, 30)
   } else if (cpumem == "mem") {
     y_lim <- c(-1, 40)
-    y_lab_pos <- 36
+    y_lab_pos <- 38.5
     y_name <- "Gigabytes"
     y_breaks <- c(0, 10, 20, 30, 40)
   }
+
+  #annotate("text", x = x_lab_pos, y = y_lab_pos, label = label, size = 6) +
 
   plot +
     aes(x = sample_size, colour = method, shape = method, fill = method, linetype = method) +
@@ -120,7 +122,6 @@ plot_base <- function(plot, ss, cpumem, label, smooth_span) {
                           labels = legend_labels,
                           breaks = legend_order,
                           name = legend_title) +
-    annotate("text", x = x_lab_pos, y = y_lab_pos, label = label, size = 6) +
     coord_cartesian(xlim = x_lim, ylim = y_lim) +
     scale_x_continuous(name = x_name, breaks = x_breaks, labels = x_labels) +
     scale_y_continuous(name = y_name, breaks = y_breaks)

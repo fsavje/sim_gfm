@@ -116,10 +116,10 @@ legend_title <- "Matching methods"
 legend_order <- c("opt_pairmatch",
                   "opt_kmatch",
                   "opt_fullmatch",
+                  "scclust_LEX_ANY",
                   "gre_pairmatch",
                   "gre_kmatch",
                   "rep_pairmatch",
-                  "scclust_LEX_ANY",
                   "scclust_EXU_CSE")
 
 legend_labels <- c(gre_pairmatch = "Greedy NN",
@@ -134,40 +134,42 @@ legend_labels <- c(gre_pairmatch = "Greedy NN",
 
 small_cpu_plot <- ggplot(small_cpu_data, aes(y = tot_time))
 small_cpu_plot <- plot_base(small_cpu_plot, "small", "cpu", "A", 0.9)
-save_plot(small_cpu_plot, "small_cpu.pdf")
 
 medium_cpu_plot <- ggplot(medium_cpu_data, aes(y = tot_time))
 medium_cpu_plot <- plot_base(medium_cpu_plot, "medium", "cpu", "B", 0.8)
-save_plot(medium_cpu_plot, "medium_cpu.pdf")
 
 big_cpu_plot <- ggplot(big_cpu_data, aes(y = tot_time))
 big_cpu_plot <- plot_base(big_cpu_plot, "big", "cpu", "C", 0.8)
-save_plot(big_cpu_plot, "big_cpu.pdf")
 
 small_mem_plot <- ggplot(small_mem_data, aes(y = memory))
 small_mem_plot <- plot_base(small_mem_plot, "small", "mem", "D", 0.8)
-save_plot(small_mem_plot, "small_mem.pdf")
 
 medium_mem_plot <- ggplot(medium_mem_data, aes(y = memory))
 medium_mem_plot <- plot_base(medium_mem_plot, "medium", "mem", "E", 0.8)
-save_plot(medium_mem_plot, "medium_mem.pdf")
 
 big_mem_plot <- ggplot(big_mem_data, aes(y = memory))
 big_mem_plot <- plot_base(big_mem_plot, "big", "mem", "F", 0.8)
-save_plot(big_mem_plot, "big_mem.pdf")
 
 
-legend_guide <- guide_legend(nrow = 3, byrow = FALSE, keywidth = 2.8)
+legend_guide <- guide_legend(nrow = 4, byrow = FALSE, keywidth = 2.8)
 legend_grob <- small_cpu_plot +
   guides(colour = legend_guide,
          fill = legend_guide,
          shape = legend_guide,
          linetype = legend_guide) +
   theme(legend.background = element_rect(size = 0.5, colour = "#CCCCCC"),
-        legend.position = c(0.02, 0.05),
-        legend.justification = c(0.01, 0.01))
+        legend.position = c(0.965, 0.96),
+        legend.justification = c(1, 1))
 legend_grob <- ggplotGrob(legend_grob)$grobs
 legend_grob <- legend_grob[[which(sapply(legend_grob, function(x) x$name) == "guide-box")]]
-#grid.draw(legend_grob)
-ggsave("output/legend.pdf", legend_grob, scale = 2,
-       width = 6.3, height = 1.45, units = "cm")
+
+big_mem_plot <- ggplotGrob(big_mem_plot + theme(legend.justification=c(1,1), legend.position = c(1,1)))
+big_mem_plot$grobs[[which(sapply(big_mem_plot$grobs, function(x) x$name) == "guide-box")]] <- legend_grob
+
+
+save_plot(small_cpu_plot, "comp_small_cpu.pdf")
+save_plot(medium_cpu_plot, "comp_medium_cpu.pdf")
+save_plot(big_cpu_plot, "comp_big_cpu.pdf")
+save_plot(small_mem_plot, "comp_small_mem.pdf")
+save_plot(medium_mem_plot, "comp_medium_mem.pdf")
+save_plot(big_mem_plot, "comp_big_mem.pdf")

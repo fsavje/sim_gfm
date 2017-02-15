@@ -43,7 +43,7 @@ table_data <- merge(table_data, compiled_results, all.x = TRUE)
 
 # Table 1: CPU time
 
-make_table("./output/table_cputime.tex",
+make_table("output/comp_cputime.tex",
            table_data,
            matching_methods,
            "tot_time",
@@ -52,7 +52,7 @@ make_table("./output/table_cputime.tex",
 
 # Table 2: Memory
 
-make_table("./output/table_memory.tex",
+make_table("output/comp_memory.tex",
            table_data,
            matching_methods,
            "memory",
