@@ -39,12 +39,14 @@ cd sim_gfm
 
 ```bash
 cd balance
-module load r/3.3.2
+
 # Generate batches
 make generate
+
 # Run simulations on node. Several nodes can run simultaneously.
-# (for SLURM cluster, see the `make queue` target in the `Makefile`)
+# (For SLURM cluster, see the `make queue` target in the `Makefile`.)
 ./run_node.sh
+
 # Wait until simulations are completely done...
 # Then collect results in `collected/balance.Rdata`
 make collect
@@ -55,13 +57,15 @@ make collect
 
 ```bash
 cd complexity
-module load r/3.3.2
+
 # Generate batches
 make generate
+
 # Run simulations on node. Several nodes can run simultaneously.
-# (for SLURM cluster, see the `make queue` target in the `Makefile`)
+# (For SLURM cluster, see the `make queue` target in the `Makefile`.)
 ./run_normal_node.sh
 ./run_bigmem_node.sh
+
 # Wait until simulations are completely done...
 # Then collect results in `collected/complexity.Rdata`
 make collect
@@ -74,7 +78,7 @@ This step is quick and there's no need to run it on a cluster. It does, however,
 
 ```bash
 cd tables
-module load r/3.3.2
+
 # Generate tables and figures (see the `output` folder for results)
 make all
 ```
