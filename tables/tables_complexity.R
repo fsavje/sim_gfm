@@ -7,14 +7,14 @@ compiled_results$tot_time <- compiled_results$tot_time / 60
 # Memory in GB
 compiled_results$memory <- compiled_results$memory / 1024^2
 
-matching_methods <- c("Greedy NN" = "gre_pairmatch",
-                      "Optimal NN" = "opt_pairmatch",
-                      "With replacement" = "rep_pairmatch",
+matching_methods <- c("Greedy 1:1" = "gre_pairmatch",
+                      "Optimal 1:1" = "opt_pairmatch",
+                      "Replacement 1:1" = "rep_pairmatch",
                       "Greedy 1:2" = "gre_kmatch",
                       "Optimal 1:2" = "opt_kmatch",
                       "Full matching" = "opt_fullmatch",
                       "GFM" = "scclust_LEX_ANY",
-                      "GFM refined" = "scclust_EXU_CSE")
+                      "Refined GFM" = "scclust_EXU_CSE")
 
 sample_sizes <- c("100" = 1e2,
                   "500" = 5e2,

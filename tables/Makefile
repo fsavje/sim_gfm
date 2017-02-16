@@ -1,13 +1,30 @@
 .PHONY: all clean balance complexity
 
+BALANCE_TABLES = output/bal_app_bal.tex \
+                 output/bal_app_dist.tex \
+                 output/bal_app_group.tex \
+                 output/bal_app_rmse.tex \
+                 output/bal_main_bal_rmse.tex \
+                 output/bal_main_group_dist.tex
+
+COMPLEXITY_TABLES = output/comp_cputime.tex \
+                    output/comp_memory.tex
+
+COMPLEXITY_FIGURES = output/comp_big_cpu.pdf \
+                     output/comp_big_mem.pdf \
+                     output/comp_medium_cpu.pdf \
+                     output/comp_medium_mem.pdf \
+                     output/comp_small_cpu.pdf \
+                     output/comp_small_mem.pdf
+
 all: balance complexity
 
 clean:
 	$(RM) -R compiled output
 
-balance: output/bal_distances.tex output/bal_misc.tex output/bal_balance.tex output/bal_rmse.tex
+balance: $(BALANCE_TABLES)
 
-complexity: output/comp_small_cpu.pdf output/comp_medium_cpu.pdf output/comp_big_cpu.pdf output/comp_small_mem.pdf output/comp_medium_mem.pdf output/comp_big_mem.pdf output/comp_cputime.tex output/comp_memory.tex
+complexity: $(COMPLEXITY_TABLES) $(COMPLEXITY_FIGURES)
 
 output/bal_%.tex: tables_balance.R compiled/balance.Rdata
 	mkdir -p output

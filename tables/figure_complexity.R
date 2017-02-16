@@ -11,8 +11,8 @@ compiled_results$tot_time <- compiled_results$tot_time / 60
 # Memory in GB
 compiled_results$memory <- compiled_results$memory / 1024^2
 
-small_ss <- c(2e1, 5e3, 10e3, 15e3, 20e3, 25e3, 30e3, 35e3, 40e3, 45e3, 50e3)
-medium_ss <- c(2e1, 50e3, 10e4, 15e4, 20e4, 25e4, 30e4, 35e4, 40e4, 45e4, 50e4)
+small_ss <- c(2e1, 5e3, 10e3, 15e3, 20e3, 25e3, 30e3, 35e3, 40e3, 45e3, 50e3, 55e3)
+medium_ss <- c(2e1, 50e3, 10e4, 15e4, 20e4, 25e4, 30e4, 35e4, 40e4, 45e4, 50e4, 55e4)
 big_ss <- c(2e1, 1e7, 2e7, 3e7, 4e7, 5e7, 6e7, 7e7, 8e7, 9e7, 10e7)
 
 
@@ -78,10 +78,16 @@ big_cpu_data <- compiled_results[compiled_results$sample_size %in% big_ss &
                                                                   "scclust_EXU_CSE"),
                                  c("method", "sample_size", "tot_time")]
 
+big_cpu_data <- rbind(big_cpu_data,
+                      extrapolate_cpu("scclust_LEX_ANY", 11e7),
+                      extrapolate_cpu("scclust_EXU_CSE", 11e7))
+
 big_mem_data <- compiled_results[compiled_results$sample_size %in% big_ss &
                                    compiled_results$method %in% c("scclust_EXU_CSE"),
                                  c("method", "sample_size", "memory")]
 
+big_mem_data <- rbind(big_mem_data,
+                      extrapolate_memory("scclust_EXU_CSE", 11e7))
 
 
 palette <- c(opt_pairmatch = "#377eb8",
@@ -122,14 +128,14 @@ legend_order <- c("opt_pairmatch",
                   "rep_pairmatch",
                   "scclust_EXU_CSE")
 
-legend_labels <- c(gre_pairmatch = "Greedy NN",
-                   opt_pairmatch = "Optimal NN",
-                   rep_pairmatch = "NN with replacement     ",
+legend_labels <- c(gre_pairmatch = "Greedy 1:1",
+                   opt_pairmatch = "Optimal 1:1",
+                   rep_pairmatch = "Replacement 1:1",
                    gre_kmatch = "Greedy 1:2",
                    opt_kmatch = "Optimal 1:2",
-                   opt_fullmatch = "Full matching     ",
+                   opt_fullmatch = "Full matching",
                    scclust_LEX_ANY = "GFM",
-                   scclust_EXU_CSE = "GFM refined")
+                   scclust_EXU_CSE = "Refined GFM")
 
 
 small_cpu_plot <- ggplot(small_cpu_data, aes(y = tot_time))

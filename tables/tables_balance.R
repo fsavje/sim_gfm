@@ -4,98 +4,157 @@ load("./compiled/balance.Rdata")
 
 # Make additional statistics
 
-compiled_results$bias_se_ratio <- compiled_results$bias / compiled_results$std_err
+compiled_results$share_discarded <- 100 * compiled_results$share_discarded
+compiled_results$bias_rmse_ratio <- compiled_results$bias / compiled_results$rmse
 compiled_results$sd_weights_control_norm <- compiled_results$sd_weights_control * compiled_results$sample_size
 
 # Settings common for all tables
 
 all_methods <- c("Unadjusted" = "no_match",
-                 "Greedy NN" = "gre_pairmatch",
-                 "Optimal NN" = "opt_pairmatch",
-                 "With replacement" = "rep_pairmatch",
+                 "Greedy 1:1" = "gre_pairmatch",
+                 "Optimal 1:1" = "opt_pairmatch",
+                 "Replacement 1:1" = "rep_pairmatch",
                  "Greedy 1:2" = "gre_kmatch",
                  "Optimal 1:2" = "opt_kmatch",
                  "Full matching" = "opt_fullmatch",
                  "GFM" = "scclust_LEX_ANY",
-                 "GFM refined" = "scclust_EXU_CSE")
+                 "Refined GFM" = "scclust_EXU_CSE")
 
 matching_methods <- all_methods[all_methods != "no_match"]
 
-normalize_with <- compiled_results[compiled_results$method == "opt_fullmatch" &
-                                     compiled_results$sample_size == 1e3L, ]
+row_opt_fullmatch1e3L <- compiled_results[compiled_results$method == "opt_fullmatch" &
+                                            compiled_results$sample_size == 1e3L, ]
 
-sample_sizes <- c(1e3L, 1e4L)
+row_opt_fullmatch1e4L <- compiled_results[compiled_results$method == "opt_fullmatch" &
+                                            compiled_results$sample_size == 1e4L, ]
 
+distance_cols <- c("$L$" = "max_dist",
+                   "$L_{tc}$" = "max_tc_dist",
+                   "$L^{Mean}$" = "mean_dist",
+                   "$L^{Mean}_{tc}$" = "mean_tc_dist",
+                   "$L^{Sum}$" = "sum_dist")
 
-# Table 1: distances
+misc_cols <- c("$\\bar{m}$" = "ave_group_size",
+               "\\textsc{sd} $\\bar{m}$" = "sd_group_size",
+               "\\% drop" = "share_discarded",
+               "\\textsc{sd} Weights" = "sd_weights_control_norm")
 
-distance_cols <- c("max_dist",
-                   "max_tc_dist",
-                   "mean_dist",
-                   "mean_tc_dist",
-                   "sum_dist")
+balance_cols <- c("$x_1$" = "abs_bal_x1",
+                  "$x_2$" = "abs_bal_x2",
+                  "$x_1^2$" = "abs_bal_x1_sq",
+                  "$x_2^2$" = "abs_bal_x2_sq",
+                  "$x_1x_2$" = "abs_bal_x1x2")
 
-make_table("output/bal_distances.tex",
-           compiled_results,
-           matching_methods,
-           distance_cols,
-           sample_sizes,
-           distance_cols,
-           normalize_with,
-           col_labels = distance_cols)
+rmse_cols <- c("Bias" = "bias",
+               "\\textsc{se}" = "std_err",
+               "\\textsc{rmse}" = "rmse",
+               "Bias / \\textsc{rmse}" = "bias_rmse_ratio")
 
-
-# Table 2: misc
-
-misc_cols <- c("ave_group_size",
-               "sd_group_size",
-               "share_discarded",
-               "sd_weights_control_norm")
-
-make_table("output/bal_misc.tex",
-           compiled_results,
-           all_methods,
-           misc_cols,
-           sample_sizes,
-           NULL,
-           NULL,
-           col_labels = misc_cols)
+rmse_normalize <- c("bias", "std_err", "rmse")
 
 
-# Table 3: balance
+# Table 1: Misc and dists, 1e4L
 
-balance_cols <- c("abs_bal_x1",
-                  "abs_bal_x2",
-                  "abs_bal_x1_sq",
-                  "abs_bal_x2_sq",
-                  "abs_bal_x1x2")
+tab_group_stats <- make_sub_table(compiled_results,
+                                  matching_methods,
+                                  misc_cols,
+                                  1e4L,
+                                  "\\underline{Panel B: Group statistics}")
 
-make_table("output/bal_balance.tex",
-           compiled_results,
-           all_methods,
-           balance_cols,
-           sample_sizes,
-           balance_cols,
-           normalize_with,
-           col_labels = balance_cols)
+tab_distances <- make_sub_table(compiled_results,
+                                matching_methods,
+                                distance_cols,
+                                1e4L,
+                                "\\underline{Panel A: Distances}",
+                                distance_cols,
+                                row_opt_fullmatch1e4L)
+
+save_table("output/bal_main_group_dist.tex",
+           cbind(tab_distances, tab_group_stats),
+           names(matching_methods),
+           "\\cline{3-7} \\cline{9-12}")
+
+tab_rmse <- make_sub_table(compiled_results,
+                           all_methods,
+                           rmse_cols,
+                           1e4L,
+                           "\\underline{Panel C: Estimator}",
+                           rmse_normalize,
+                           row_opt_fullmatch1e4L)
+
+tab_balance <- make_sub_table(compiled_results,
+                              all_methods,
+                              balance_cols,
+                              1e4L,
+                              "\\underline{Panel D: Covariate balance}",
+                              balance_cols,
+                              row_opt_fullmatch1e4L)
 
 
-# Table 4: RMSE etc
+save_table("output/bal_main_bal_rmse.tex",
+           cbind(tab_balance, tab_rmse),
+           names(all_methods),
+           "\\cline{3-7} \\cline{9-12}")
 
-rmse_cols <- c("bias",
-               "std_err",
-               "rmse",
-               "bias_se_ratio")
 
-rmse_normalize <- c("bias",
-                    "std_err",
-                    "rmse")
+# Table S1: Misc, 1e3L 1e4L
 
-make_table("output/bal_rmse.tex",
-           compiled_results,
-           all_methods,
-           rmse_cols,
-           sample_sizes,
-           rmse_normalize,
-           normalize_with,
-           col_labels = rmse_cols)
+save_table("output/bal_app_group.tex",
+           do.call(cbind,
+                   lapply(c(1e3L, 1e4L),
+                          function(x) {
+                            make_sub_table(compiled_results,
+                                           matching_methods,
+                                           misc_cols,
+                                           x,
+                                           x)
+                          })),
+           names(matching_methods))
+
+# Table S2: dists, 1e3L 1e4L
+
+save_table("output/bal_app_dist.tex",
+           do.call(cbind,
+                   lapply(c(1e3L, 1e4L),
+                          function(x) {
+                            make_sub_table(compiled_results,
+                                           matching_methods,
+                                           distance_cols,
+                                           x,
+                                           x,
+                                           distance_cols,
+                                           row_opt_fullmatch1e3L)
+                          })),
+           names(matching_methods))
+
+# Table S3: Balance, 1e3L 1e4L
+
+save_table("output/bal_app_bal.tex",
+           do.call(cbind,
+                   lapply(c(1e3L, 1e4L),
+                          function(x) {
+                            make_sub_table(compiled_results,
+                                           all_methods,
+                                           balance_cols,
+                                           x,
+                                           x,
+                                           balance_cols,
+                                           row_opt_fullmatch1e3L)
+                          })),
+           names(all_methods))
+
+# Table S4: RMSE, 1e3L 1e4L
+
+save_table("output/bal_app_rmse.tex",
+           do.call(cbind,
+                   lapply(c(1e3L, 1e4L),
+                          function(x) {
+                            make_sub_table(compiled_results,
+                                           all_methods,
+                                           rmse_cols,
+                                           x,
+                                           x,
+                                           rmse_normalize,
+                                           row_opt_fullmatch1e3L)
+                          })),
+           names(all_methods))

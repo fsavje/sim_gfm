@@ -80,7 +80,7 @@ plot_base <- function(plot, ss, cpumem, label, smooth_span) {
     x_labels <- c("0", "100k", "200k", "300k", "400k", "500k")
     plot <- plot + theme(axis.title.y = element_blank())
   } else if (ss == "big") {
-    x_lim <- c(0, 102e6L)
+    x_lim <- c(0, 101e6L)
     x_lab_pos <- 62.6e5
     x_name <- "Data points (in millions)"
     x_breaks <- c(0, 2e7L, 4e7L, 6e7L, 8e7L, 1e8L)
