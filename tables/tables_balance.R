@@ -34,10 +34,10 @@ distance_cols <- c("$L$" = "max_dist",
                    "$L^{Mean}_{tc}$" = "mean_tc_dist",
                    "$L^{Sum}$" = "sum_dist")
 
-misc_cols <- c("$\\bar{m}$" = "ave_group_size",
-               "\\textsc{sd} $\\bar{m}$" = "sd_group_size",
-               "\\% drop" = "share_discarded",
-               "\\textsc{sd} Weights" = "sd_weights_control_norm")
+misc_cols <- c("Size" = "ave_group_size",
+               "$\\sigma(\\text{Size})$" = "sd_group_size",
+               "\\%drop" = "share_discarded",
+               "$\\sigma(w)$" = "sd_weights_control_norm")
 
 balance_cols <- c("$x_1$" = "abs_bal_x1",
                   "$x_2$" = "abs_bal_x2",
@@ -48,7 +48,7 @@ balance_cols <- c("$x_1$" = "abs_bal_x1",
 rmse_cols <- c("Bias" = "bias",
                "\\textsc{se}" = "std_err",
                "\\textsc{rmse}" = "rmse",
-               "Bias / \\textsc{rmse}" = "bias_rmse_ratio")
+               "$\\frac{\\text{Bias}}{\\text{\\textsc{rmse}}}$" = "bias_rmse_ratio")
 
 rmse_normalize <- c("bias", "std_err", "rmse")
 

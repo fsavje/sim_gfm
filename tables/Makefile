@@ -26,22 +26,22 @@ balance: $(BALANCE_TABLES)
 
 complexity: $(COMPLEXITY_TABLES) $(COMPLEXITY_FIGURES)
 
-output/bal_%.tex: tables_balance.R compiled/balance.Rdata
+output/bal_%.tex: tables_balance.R funcs_balance.R compiled/balance.Rdata
 	mkdir -p output
 	Rscript tables_balance.R
 
-output/comp_%.pdf: figure_complexity.R compiled/complexity.Rdata
+output/comp_%.pdf: figure_complexity.R funcs_complexity.R compiled/complexity.Rdata
 	mkdir -p output
 	Rscript figure_complexity.R
 
-output/comp_%.tex: tables_complexity.R compiled/complexity.Rdata
+output/comp_%.tex: tables_complexity.R funcs_complexity.R compiled/complexity.Rdata
 	mkdir -p output
 	Rscript tables_complexity.R
 
-compiled/balance.Rdata: ../collected/balance.Rdata
+compiled/balance.Rdata: compile_balance.R ../collected/balance.Rdata
 	mkdir -p compiled
 	Rscript compile_balance.R
 
-compiled/complexity.Rdata: ../collected/complexity.Rdata
+compiled/complexity.Rdata: compile_complexity.R ../collected/complexity.Rdata
 	mkdir -p compiled
 	Rscript compile_complexity.R

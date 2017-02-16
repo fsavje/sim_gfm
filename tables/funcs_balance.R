@@ -20,6 +20,7 @@ make_sub_table <- function(compiled_results,
                     function(col) {
                       format(col, justify = "right", digits = digits, nsmall = nsmall, scientific = FALSE)
                     })
+  col_labels <- paste0("\\multicolumn{1}{r}{", col_labels, "}")
   tmp_mat <- format(rbind(col_labels, rep(" ", length(col_labels)), tmp_mat), justify = "right")
   tmp_mat <- apply(tmp_mat, 1, paste, collapse = " & ")
   tmp_mat <- format(c(paste0("\\multicolumn{", length(stats_cols), "}{c}{", title, "}"), tmp_mat), justify = "centre")
@@ -37,6 +38,7 @@ save_table <- function(file,
                    res_mat)
   res_mat <- apply(res_mat, 1, paste, collapse = " ")
   res_mat <- paste(res_mat, " \\\\ ")
+  res_mat[1] <- paste(res_mat[1], "[0.1cm]")
   res_mat[2] <- paste(res_mat[2], "[0.15cm]")
   res_mat[3] <- paste(res_mat[3], "[-0.6cm]")
   if (!is.null(cline_add)) {
