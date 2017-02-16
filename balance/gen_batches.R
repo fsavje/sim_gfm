@@ -3,7 +3,7 @@ source("../misc.R")
 normal_node_dir <- paste0(get_scratch_dir(), "normal_node")
 
 if (!file.exists(normal_node_dir)) {
-  warning("Invalid to_run dir.")
+  warning("Invalid `normal_node_dir` dir.")
   quit("no", 1)
 }
 
