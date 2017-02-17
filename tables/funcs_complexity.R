@@ -90,17 +90,16 @@ plot_base <- function(plot, ss, cpumem, label, smooth_span) {
 
   if (cpumem == "cpu") {
     y_lim <- c(-1.25, 30)
-    y_lab_pos <- 29
+    y_lab_pos <- 28
     y_name <- "Minutes"
     y_breaks <- c(0, 5, 10, 15, 20, 25, 30)
   } else if (cpumem == "mem") {
     y_lim <- c(-1, 40)
-    y_lab_pos <- 38.5
+    y_lab_pos <- 37
     y_name <- "Gigabytes"
     y_breaks <- c(0, 10, 20, 30, 40)
   }
 
-  #annotate("text", x = x_lab_pos, y = y_lab_pos, label = label, size = 6) +
 
   plot +
     aes(x = sample_size, colour = method, shape = method, fill = method, linetype = method) +
@@ -123,6 +122,7 @@ plot_base <- function(plot, ss, cpumem, label, smooth_span) {
                           breaks = legend_order,
                           name = legend_title) +
     coord_cartesian(xlim = x_lim, ylim = y_lim) +
+    annotate("text", x = x_lab_pos, y = y_lab_pos, label = label, size = 6) +
     scale_x_continuous(name = x_name, breaks = x_breaks, labels = x_labels) +
     scale_y_continuous(name = y_name, breaks = y_breaks)
 }

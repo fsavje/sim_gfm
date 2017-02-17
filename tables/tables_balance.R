@@ -28,16 +28,16 @@ row_opt_fullmatch1e3L <- compiled_results[compiled_results$method == "opt_fullma
 row_opt_fullmatch1e4L <- compiled_results[compiled_results$method == "opt_fullmatch" &
                                             compiled_results$sample_size == 1e4L, ]
 
-distance_cols <- c("$L$" = "max_dist",
-                   "$L_{tc}$" = "max_tc_dist",
+distance_cols <- c("$L^{Max}$" = "max_dist",
+                   "$L^{Max}_{tc}$" = "max_tc_dist",
                    "$L^{Mean}$" = "mean_dist",
                    "$L^{Mean}_{tc}$" = "mean_tc_dist",
-                   "$L^{Sum}$" = "sum_dist")
+                   "$L^{Sum}_{tc}$" = "sum_dist")
 
 misc_cols <- c("Size" = "ave_group_size",
                "$\\sigma(\\text{Size})$" = "sd_group_size",
-               "\\%drop" = "share_discarded",
-               "$\\sigma(w)$" = "sd_weights_control_norm")
+               "\\% drop" = "share_discarded",
+               "$\\sigma(\\text{wgh})$" = "sd_weights_control_norm")
 
 balance_cols <- c("$x_1$" = "abs_bal_x1",
                   "$x_2$" = "abs_bal_x2",
@@ -59,7 +59,7 @@ tab_group_stats <- make_sub_table(compiled_results,
                                   matching_methods,
                                   misc_cols,
                                   1e4L,
-                                  "\\underline{Panel B: Group statistics}")
+                                  "\\underline{Panel B: Group structure}")
 
 tab_distances <- make_sub_table(compiled_results,
                                 matching_methods,
@@ -78,7 +78,7 @@ tab_rmse <- make_sub_table(compiled_results,
                            all_methods,
                            rmse_cols,
                            1e4L,
-                           "\\underline{Panel C: Estimator}",
+                           "\\underline{Panel D: Estimator}",
                            rmse_normalize,
                            row_opt_fullmatch1e4L)
 
@@ -86,7 +86,7 @@ tab_balance <- make_sub_table(compiled_results,
                               all_methods,
                               balance_cols,
                               1e4L,
-                              "\\underline{Panel D: Covariate balance}",
+                              "\\underline{Panel C: Covariate balance}",
                               balance_cols,
                               row_opt_fullmatch1e4L)
 
