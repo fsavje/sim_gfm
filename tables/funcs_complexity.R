@@ -20,10 +20,10 @@ make_table <- function(file,
     sub("NA", "  ", x)
   })
 
-  res_mat <- format(rbind(col_labels, res_mat), justify = "right", scientific = FALSE)
+  #res_mat <- format(rbind(col_labels, res_mat), justify = "right", scientific = FALSE)
   res_mat <- apply(res_mat, 1, paste, collapse = " & ")
   res_mat <- paste("& &", res_mat)
-  res_mat <- cbind(format(c(" ", row_labels), justify = "left"),
+  res_mat <- cbind(format(c(row_labels), justify = "left"),
                    res_mat)
   res_mat <- apply(res_mat, 1, paste, collapse = " ")
   res_mat <- paste(paste(res_mat, collapse = " \\\\\n"), "\\\\\n")

@@ -39,11 +39,11 @@ misc_cols <- c("Size" = "ave_group_size",
                "\\% drop" = "share_discarded",
                "$\\sigma(\\text{wgh})$" = "sd_weights_control_norm")
 
-balance_cols <- c("$x_1$" = "abs_bal_x1",
-                  "$x_2$" = "abs_bal_x2",
-                  "$x_1^2$" = "abs_bal_x1_sq",
-                  "$x_2^2$" = "abs_bal_x2_sq",
-                  "$x_1x_2$" = "abs_bal_x1x2")
+balance_cols <- c("$X_1$" = "abs_bal_x1",
+                  "$X_2$" = "abs_bal_x2",
+                  "$X_1^2$" = "abs_bal_x1_sq",
+                  "$X_2^2$" = "abs_bal_x2_sq",
+                  "$X_1X_2$" = "abs_bal_x1x2")
 
 rmse_cols <- c("Bias" = "bias",
                "\\textsc{se}" = "std_err",
@@ -107,9 +107,10 @@ save_table("output/bal_app_group.tex",
                                            matching_methods,
                                            misc_cols,
                                            x,
-                                           x)
+                                           paste0("\\underline{", x, " units}"))
                           })),
-           names(matching_methods))
+           names(matching_methods),
+           "\\cline{3-6} \\cline{8-11}")
 
 # Table S2: dists, 1e3L 1e4L
 
@@ -121,11 +122,12 @@ save_table("output/bal_app_dist.tex",
                                            matching_methods,
                                            distance_cols,
                                            x,
-                                           x,
+                                           paste0("\\underline{", x, " units}"),
                                            distance_cols,
                                            row_opt_fullmatch1e3L)
                           })),
-           names(matching_methods))
+           names(matching_methods),
+           "\\cline{3-7} \\cline{9-13}")
 
 # Table S3: Balance, 1e3L 1e4L
 
@@ -137,11 +139,12 @@ save_table("output/bal_app_bal.tex",
                                            all_methods,
                                            balance_cols,
                                            x,
-                                           x,
+                                           paste0("\\underline{", x, " units}"),
                                            balance_cols,
                                            row_opt_fullmatch1e3L)
                           })),
-           names(all_methods))
+           names(all_methods),
+           "\\cline{3-7} \\cline{9-13}")
 
 # Table S4: RMSE, 1e3L 1e4L
 
@@ -153,8 +156,9 @@ save_table("output/bal_app_rmse.tex",
                                            all_methods,
                                            rmse_cols,
                                            x,
-                                           x,
+                                           paste0("\\underline{", x, " units}"),
                                            rmse_normalize,
                                            row_opt_fullmatch1e3L)
                           })),
-           names(all_methods))
+           names(all_methods),
+           "\\cline{3-6} \\cline{8-11}")
