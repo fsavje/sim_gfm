@@ -46,6 +46,10 @@ small_mem_data <- compiled_results[compiled_results$sample_size %in% small_ss &
 small_mem_data <- rbind(small_mem_data,
                         extrapolate_memory("opt_fullmatch", 50e3))
 
+small_mem_data$memory[small_mem_data$method == "scclust_EXU_CSE"] <- small_mem_data$memory[small_mem_data$method == "scclust_EXU_CSE"] + 0.25
+small_mem_data$memory[small_mem_data$method == "rep_pairmatch"] <- small_mem_data$memory[small_mem_data$method == "rep_pairmatch"] - 0.25
+
+
 
 
 medium_cpu_data <- compiled_results[compiled_results$sample_size %in% medium_ss &
@@ -71,6 +75,8 @@ medium_mem_data <- compiled_results[compiled_results$sample_size %in% medium_ss 
 medium_mem_data <- rbind(medium_mem_data,
                          extrapolate_memory("rep_pairmatch", 55e4))
 
+medium_mem_data$memory[medium_mem_data$method == "scclust_EXU_CSE"] <- medium_mem_data$memory[medium_mem_data$method == "scclust_EXU_CSE"] + 0.25
+medium_mem_data$memory[medium_mem_data$method == "rep_pairmatch"] <- medium_mem_data$memory[medium_mem_data$method == "rep_pairmatch"] - 0.25
 
 
 big_cpu_data <- compiled_results[compiled_results$sample_size %in% big_ss &
