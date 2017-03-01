@@ -16,7 +16,7 @@ We used a fresh installation of R 3.3.2 (see [this note](install_modules.md) for
 install.packages(c("devtools"), repos = "http://cloud.r-project.org")
 devtools::install_version("Matching", version = "4.9-2", repos = "http://cloud.r-project.org")
 devtools::install_version("optmatch", version = "0.9-7", repos = "http://cloud.r-project.org")
-devtools::install_github("fsavje/Rscclust", ref = "7a275a23b7d4e5242ffdd6f68a21de4b4ba8d08d")
+devtools::install_github("fsavje/scclust-R", ref = "7a275a23b7d4e5242ffdd6f68a21de4b4ba8d08d")
 ```
 
 We used [GNU `time`](https://www.gnu.org/software/time/) to measure runtime and memory. However, many distributions include GNU time 1.7 which reports incorrect memory. Therefore, we used a patched version of 1.7 that corrects this bug. See [this note](install_modules.md) for details.
