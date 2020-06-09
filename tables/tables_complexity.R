@@ -57,3 +57,4 @@ make_table("output/comp_memory.tex",
            matching_methods,
            "memory",
            names(sample_sizes))
+
