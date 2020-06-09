@@ -4,8 +4,7 @@ BALANCE_TABLES = output/bal_app_bal.tex \
                  output/bal_app_dist.tex \
                  output/bal_app_group.tex \
                  output/bal_app_rmse.tex \
-                 output/bal_main_bal_rmse.tex \
-                 output/bal_main_group_dist.tex
+                 output/bal_main_bal_rmse.tex
 
 COMPLEXITY_TABLES = output/comp_cputime.tex \
                     output/comp_memory.tex
