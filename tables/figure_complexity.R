@@ -41,8 +41,8 @@ small_mem_data <- compiled_results[compiled_results$sample_size %in% small_ss &
 small_mem_data <- rbind(small_mem_data,
                         extrapolate_memory("opt_fullmatch", 50e3))
 
-small_mem_data$memory[small_mem_data$method == "scclust_EXU_CSE"] <- small_mem_data$memory[small_mem_data$method == "scclust_EXU_CSE"] + 0.25
-small_mem_data$memory[small_mem_data$method == "rep_pairmatch"] <- small_mem_data$memory[small_mem_data$method == "rep_pairmatch"] - 0.25
+small_mem_data$memory[small_mem_data$method == "scclust_EXU_CSE"] <- small_mem_data$memory[small_mem_data$method == "scclust_EXU_CSE"] - 0.25
+small_mem_data$memory[small_mem_data$method == "rep_pairmatch"] <- small_mem_data$memory[small_mem_data$method == "rep_pairmatch"] + 0.25
 
 
 
@@ -68,8 +68,8 @@ medium_mem_data <- compiled_results[compiled_results$sample_size %in% medium_ss 
 medium_mem_data <- rbind(medium_mem_data,
                          extrapolate_memory("rep_pairmatch", 55e4))
 
-medium_mem_data$memory[medium_mem_data$method == "scclust_EXU_CSE"] <- medium_mem_data$memory[medium_mem_data$method == "scclust_EXU_CSE"] + 0.25
-medium_mem_data$memory[medium_mem_data$method == "rep_pairmatch"] <- medium_mem_data$memory[medium_mem_data$method == "rep_pairmatch"] - 0.25
+medium_mem_data$memory[medium_mem_data$method == "scclust_EXU_CSE"] <- medium_mem_data$memory[medium_mem_data$method == "scclust_EXU_CSE"] - 0.25
+medium_mem_data$memory[medium_mem_data$method == "rep_pairmatch"] <- medium_mem_data$memory[medium_mem_data$method == "rep_pairmatch"] + 0.25
 
 
 big_cpu_data <- compiled_results[compiled_results$sample_size %in% big_ss &
@@ -138,43 +138,34 @@ legend_labels <- c(gre_pairmatch = "Greedy 1:1",
 
 
 small_cpu_plot <- ggplot(small_cpu_data, aes(y = tot_time))
-small_cpu_plot <- plot_base(small_cpu_plot, "small", "cpu", "A", 0.9)
+small_cpu_plot <- plot_base(small_cpu_plot, "small", "cpu", "A", 0.9) +
+  annotate("text", x = 14e3, y = 19.5, label = "Optimal 1:1", size = 3.2) +
+  annotate("text", x = 42e3, y = 10, label = "Full matching", size = 3.2)
+save_plot(small_cpu_plot, "comp_small_cpu.pdf")
 
 medium_cpu_plot <- ggplot(medium_cpu_data, aes(y = tot_time))
-medium_cpu_plot <- plot_base(medium_cpu_plot, "medium", "cpu", "B", 0.8)
+medium_cpu_plot <- plot_base(medium_cpu_plot, "medium", "cpu", "B", 0.8) +
+  annotate("text", x = 19.8e4, y = 21, label = "Greedy 1:1", size = 3.2) +
+  annotate("text", x = 32.2e4, y = 19.8, label = "Replacement 1:1", size = 3.2)
+save_plot(medium_cpu_plot, "comp_medium_cpu.pdf")
 
 big_cpu_plot <- ggplot(big_cpu_data, aes(y = tot_time))
-big_cpu_plot <- plot_base(big_cpu_plot, "big", "cpu", "C", 0.8)
+big_cpu_plot <- plot_base(big_cpu_plot, "big", "cpu", "C", 0.8) +
+  annotate("text", x = 49e6, y = 12.2, label = "Refined GFM", size = 3.2) +
+  annotate("text", x = 75.4e6, y = 8.7, label = "GFM", size = 3.2)
+save_plot(big_cpu_plot, "comp_big_cpu.pdf")
 
 small_mem_plot <- ggplot(small_mem_data, aes(y = memory))
-small_mem_plot <- plot_base(small_mem_plot, "small", "mem", "D", 0.8)
+small_mem_plot <- plot_base(small_mem_plot, "small", "mem", "D", 0.8) +
+  annotate("text", x = 36e3, y = 20.2, label = "Full matching", size = 3.2)
+save_plot(small_mem_plot, "comp_small_mem.pdf")
 
 medium_mem_plot <- ggplot(medium_mem_data, aes(y = memory))
-medium_mem_plot <- plot_base(medium_mem_plot, "medium", "mem", "E", 0.8)
+medium_mem_plot <- plot_base(medium_mem_plot, "medium", "mem", "E", 0.8) +
+  annotate("text", x = 5.5e4, y = 2, label = "Replacement 1:1", size = 3.2)
+save_plot(medium_mem_plot, "comp_medium_mem.pdf")
 
 big_mem_plot <- ggplot(big_mem_data, aes(y = memory))
-big_mem_plot <- plot_base(big_mem_plot, "big", "mem", "F", 0.8)
-
-
-legend_guide <- guide_legend(nrow = 3, byrow = FALSE, keywidth = 2.8)
-legend_grob <- small_cpu_plot +
-  guides(colour = legend_guide,
-         fill = legend_guide,
-         shape = legend_guide,
-         linetype = legend_guide) +
-  theme(legend.background = element_rect(size = 0.5, colour = "#CCCCCC"),
-        legend.position = c(0.965, 0.96),
-        legend.justification = c(1, 1))
-legend_grob <- ggplotGrob(legend_grob)$grobs
-legend_grob <- legend_grob[[which(sapply(legend_grob, function(x) x$name) == "guide-box")]]
-
-big_mem_plot <- ggplotGrob(big_mem_plot + theme(legend.justification=c(1,1), legend.position = c(1,1)))
-big_mem_plot$grobs[[which(sapply(big_mem_plot$grobs, function(x) x$name) == "guide-box")]] <- legend_grob
-
-
-save_plot(small_cpu_plot, "comp_small_cpu.pdf")
-save_plot(medium_cpu_plot, "comp_medium_cpu.pdf")
-save_plot(big_cpu_plot, "comp_big_cpu.pdf")
-save_plot(small_mem_plot, "comp_small_mem.pdf")
-save_plot(medium_mem_plot, "comp_medium_mem.pdf")
+big_mem_plot <- plot_base(big_mem_plot, "big", "mem", "F", 0.8) +
+  annotate("text", x = 81e6, y = 10.5, label = "Refined GFM", size = 3.2)
 save_plot(big_mem_plot, "comp_big_mem.pdf")
