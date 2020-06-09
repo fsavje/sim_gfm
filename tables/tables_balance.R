@@ -20,6 +20,15 @@ all_methods <- c("Unadjusted" = "no_match",
                  "GFM" = "scclust_LEX_ANY",
                  "Refined GFM" = "scclust_EXU_CSE")
 
+
+main_methods <- c("Unadjusted" = "no_match",
+                 "Greedy 1:1" = "gre_pairmatch",
+                 "Optimal 1:1" = "opt_pairmatch",
+                 "Replacement 1:1" = "rep_pairmatch",
+                 "Full matching" = "opt_fullmatch",
+                 "GFM" = "scclust_LEX_ANY",
+                 "Refined GFM" = "scclust_EXU_CSE")
+
 matching_methods <- all_methods[all_methods != "no_match"]
 
 row_opt_fullmatch1e3L <- compiled_results[compiled_results$method == "opt_fullmatch" &
@@ -53,29 +62,10 @@ rmse_cols <- c("Bias" = "bias",
 rmse_normalize <- c("bias", "std_err", "rmse")
 
 
-# Table 1: Misc and dists, 1e4L
-
-tab_group_stats <- make_sub_table(compiled_results,
-                                  matching_methods,
-                                  misc_cols,
-                                  1e4L,
-                                  "\\underline{Panel B: Group structure}")
-
-tab_distances <- make_sub_table(compiled_results,
-                                matching_methods,
-                                distance_cols,
-                                1e4L,
-                                "\\underline{Panel A: Distances}",
-                                distance_cols,
-                                row_opt_fullmatch1e4L)
-
-save_table("output/bal_main_group_dist.tex",
-           cbind(tab_distances, tab_group_stats),
-           names(matching_methods),
-           "\\cline{3-7} \\cline{9-12}")
+# Table 1: Bal and RMSE
 
 tab_rmse <- make_sub_table(compiled_results,
-                           all_methods,
+                           main_methods,
                            rmse_cols,
                            1e4L,
                            "\\underline{Panel D: Estimator}",
@@ -83,7 +73,7 @@ tab_rmse <- make_sub_table(compiled_results,
                            row_opt_fullmatch1e4L)
 
 tab_balance <- make_sub_table(compiled_results,
-                              all_methods,
+                              main_methods,
                               balance_cols,
                               1e4L,
                               "\\underline{Panel C: Covariate balance}",
@@ -93,8 +83,7 @@ tab_balance <- make_sub_table(compiled_results,
 
 save_table("output/bal_main_bal_rmse.tex",
            cbind(tab_balance, tab_rmse),
-           names(all_methods),
-           "\\cline{3-7} \\cline{9-12}")
+           names(main_methods))
 
 
 # Table S1: Misc, 1e3L 1e4L
@@ -109,8 +98,7 @@ save_table("output/bal_app_group.tex",
                                            x,
                                            paste0("\\underline{", format(x, big.mark = ","), " units}"))
                           })),
-           names(matching_methods),
-           "\\cline{3-6} \\cline{8-11}")
+           names(matching_methods))
 
 # Table S2: dists, 1e3L 1e4L
 
@@ -126,8 +114,7 @@ save_table("output/bal_app_dist.tex",
                                            distance_cols,
                                            row_opt_fullmatch1e3L)
                           })),
-           names(matching_methods),
-           "\\cline{3-7} \\cline{9-13}")
+           names(matching_methods))
 
 # Table S3: Balance, 1e3L 1e4L
 
@@ -143,8 +130,7 @@ save_table("output/bal_app_bal.tex",
                                            balance_cols,
                                            row_opt_fullmatch1e3L)
                           })),
-           names(all_methods),
-           "\\cline{3-7} \\cline{9-13}")
+           names(all_methods))
 
 # Table S4: RMSE, 1e3L 1e4L
 
@@ -160,5 +146,5 @@ save_table("output/bal_app_rmse.tex",
                                            rmse_normalize,
                                            row_opt_fullmatch1e3L)
                           })),
-           names(all_methods),
-           "\\cline{3-6} \\cline{8-11}")
+           names(all_methods))
+
