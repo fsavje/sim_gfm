@@ -33,15 +33,10 @@ vignettes/*.pdf
 *.knit.md
 
 /global_env.sh
-/collected/
 /local/
-/scratch/
 
 /balance/cluster/
 /balance/env.sh
 
 /complexity/cluster/
 /complexity/env.sh
-
-/tables/compiled/
-/tables/output/
