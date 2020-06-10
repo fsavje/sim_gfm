@@ -1,8 +1,0 @@
-scclust_EXU_CSE 1e2 3  0.05 0.32 53948416
-scclust_LEX_ANY 1e2 3  0.05 0.35 53915648
-opt_kmatch 1e2 3  0.13 1.80 148217856
-opt_pairmatch 1e2 3  0.14 1.89 146694144
-opt_fullmatch 1e2 3  0.15 1.95 148017152
-gre_kmatch 1e2 3  0.05 0.38 55881728
-gre_pairmatch 1e2 3  0.04 0.29 55853056
-rep_pairmatch 1e2 3  0.04 0.30 56565760
