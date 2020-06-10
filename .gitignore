@@ -34,6 +34,7 @@ vignettes/*.pdf
 
 /global_env.sh
 /local/
+/scratch/
 
 /balance/cluster/
 /balance/env.sh
